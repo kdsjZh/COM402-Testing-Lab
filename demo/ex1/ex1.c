@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include <string.h>
 
-#define MAX_BUFFER_SIZE 1024
+#define MAX_BUFFER_SIZE 100
 
 int main(int argc, char *argv[]) {
     if (argc < 2) {
@@ -28,9 +28,9 @@ int main(int argc, char *argv[]) {
     }
 
     // Vulnerable buffer: fixed-size but could overflow based on file contents
-    char buffer[MAX_BUFFER_SIZE]; // Vulnerable buffer of size 100
+    char buffer[MAX_BUFFER_SIZE]; // Vulnerable buffer of size MAX_BUFFER_SIZE
 
-    // Read 'size' bytes into the buffer, potential buffer overflow if size > 100
+    // Read 'size' bytes into the buffer, potential buffer overflow if size > MAX_BUFFER_SIZE
     if (read(fd, buffer, size) < 0) {
         perror("Failed to read file content");
         close(fd);
