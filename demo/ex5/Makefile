@@ -33,14 +33,15 @@ run-fuzz:
 # Run coverage version
 run-cov: fuzz_vuln_cov
 	rm -f coverage.profraw
-	LLVM_PROFILE_FILE="coverage.profraw" ./fuzz_vuln_cov -runs=1000
+	LLVM_PROFILE_FILE="coverage.profraw" ./fuzz_vuln_cov -runs=100000
 
 run-cov-corpus: fuzz_vuln_cov
 	rm -rf coverage.profraw corpus/
 	mkdir corpus/
 	printf "\xef\xbe\xad\xde\xbe\xba\xfe\xca\xfe\xca\xba\xabHello" > corpus/test1
 	printf "\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00Data" > corpus/test2
-	LLVM_PROFILE_FILE="coverage.profraw" ./fuzz_vuln_cov -runs=1000
+	printf "\xef\xbe\xad\xde\xbe\xba\xfe\xca\xfe\xca\xba\xabHelloFuzzing!" > corpus/valid_input
+	LLVM_PROFILE_FILE="coverage.profraw" ./fuzz_vuln_cov corpus -runs=1000
 
 # Generate coverage report
 coverage: run-cov-corpus

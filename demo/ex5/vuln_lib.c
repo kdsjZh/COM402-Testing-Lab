@@ -3,9 +3,9 @@
 #include <string.h>
 
 #define MAX_BUFFER_SIZE 100
-#define MAGIC_BYTES_1 0xdeadbeef
-#define MAGIC_BYTES_2 0xcafebabe
-#define MAGIC_BYTES_3 0xabadcafe
+#define MAGIC_BYTES_1 0x6562785c // , 6461785c, 6564785c0xdeadbeef
+#define MAGIC_BYTES_2 0x6461785c
+#define MAGIC_BYTES_3 0x6564785c
 
 void process_file(const char *data, unsigned int size) {
     if (size < 12) {
@@ -25,7 +25,7 @@ void process_file(const char *data, unsigned int size) {
         extracted_3 == MAGIC_BYTES_3) {
         printf("All Magic Bytes match!\n");
     } else {
-        printf("Magic Bytes do not match.\n");
+        printf("Magic Bytes do not match, %llx, %llx, %llx.\n", extracted_1, extracted_2, extracted_3);
         return;
     }
 
@@ -38,6 +38,6 @@ void process_file(const char *data, unsigned int size) {
     // Null-terminate buffer to prevent over-read issues
     buffer[MAX_BUFFER_SIZE - 1] = '\0';
 
-    printf("Buffer content: %s\n", buffer);
+    // printf("Buffer content: %s\n", buffer);
 }
 
